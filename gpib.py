@@ -26,17 +26,17 @@ class Control(object):
         this function open the USB port 
         '''        
         if DEBUGG>0:
-	   visa.log_to_screen()
+           visa.log_to_screen()
         self.rm = visa.ResourceManager('@py')
         self.x = self.rm.open_resource(u'ASRL/dev/ttyUSB0::INSTR', timeout=2000)
-	print ('usb port connected')
+        print ('usb port connected')
 
     def close(self):
         ''' 
         this function closes the USB port 
         '''        
         self.x.close()
-	 
+         
 
     def check_instrument(self):
         address = self.x.query_ascii_values('++addr')
@@ -52,12 +52,12 @@ class Control(object):
 
     def set_voltage(self, Vset, psid=13):
         '''
-	set voltage "value" in the power supply psid 
-	(psid is defaulted to 13 if not given)
-	returns the output voltage from the supply
-	'''
+        set voltage "value" in the power supply psid 
+        (psid is defaulted to 13 if not given)
+        returns the output voltage from the supply
+        '''
         command = 'VSET'   + str(Vset)
-	instrum = '++addr '+ str(psid)
+        instrum = '++addr '+ str(psid)
         self.x.write(instrum)
         self.x.write(command)
         self.x.write('HVON')
@@ -67,9 +67,9 @@ class Control(object):
 
     def reset_pAmp(self, scale=0.002, int_plc='0.01'):
         '''
-	reads current from pAmmeter 
-	the scale parameter sets the range: 0.002 (2 mA) 
-	allowed values are:
+        reads current from pAmmeter 
+        the scale parameter sets the range: 0.002 (2 mA) 
+        allowed values are:
              2E-2 or 0.02
              2E-3 or 0.002
              2E-4 or 0.0002
@@ -78,20 +78,20 @@ class Control(object):
              2E-7 or 0.0000002
              2E-8 or 0.00000002
              2E-9 or 0.000000002
-	int_plc is the integration rate needs to be set to 
+        int_plc is the integration rate needs to be set to 
         small alue 0.01 for buffer acquisition     
-	returns current Iout 
-	'''
+        returns current Iout 
+        '''
         self.x.write('FORM:ELEM READ')
         self.x.write('++addr 14')
         self.x.write('*RST')
         time.sleep(1)
         self.x.write('SENS:CURR:RANG:AUTO OFF')
         time.sleep(1)
-	set_scale='SENS:CURR:RANG '+str(scale)
+        set_scale='SENS:CURR:RANG '+str(scale)
         self.x.write(set_scale)
         time.sleep(1)
-	set_integ='SENS:CURR:NPLC '+str(int_plc)
+        set_integ='SENS:CURR:NPLC '+str(int_plc)
         self.x.write(set_integ)
         time.sleep(1)
         self.x.write('SYST:ZCH OFF ')
@@ -105,21 +105,21 @@ class Control(object):
         tmp = self.x.query_ascii_values('read?',separator='A',container=np.array)
 #       query('read?') 
         if DEBUGG>0:
-	   print ("tmp ----",tmp)
-	try: 
-	   Iout=float(tmp[0])
-        except ValueError,e:
+           print ("tmp ----",tmp)
+        try: 
+           Iout=float(tmp[0])
+        except ValueError:
            print ("error",e)
-	   Iout=666
+           Iout=666
         return (Iout)
 
      
     def read_pAmp_buffer(self, num_buffer=100):
         '''
-	reads current from pAmmeter 
-	num_buffer number of value to save in the buffer
-	returns current Iout 
-	'''
+        reads current from pAmmeter 
+        num_buffer number of value to save in the buffer
+        returns current Iout 
+        '''
         self.x.write('FORM:ELEM READ')
         self.x.write('++addr 14')
         self.x.write("*RST")                       # Return 6485 to RST default
