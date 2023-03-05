@@ -167,7 +167,7 @@ for j in range(Nstep):
       else:
          chart_time[i]=time.time()-start_time
 
-      time.sleep(1.0) 
+      time.sleep(0.5) 
       # query current value from picoAmmeter
       tmp=usb_port.x.query_ascii_values('read?',separator='A',container=np.array)
       usb_port.x.write('++addr 13')       # connect to HVPS
@@ -183,7 +183,7 @@ for j in range(Nstep):
       if (display):
           live_display(voltage, current,i,'b')
 	  
-      time.sleep(1.0)
+      time.sleep(0.3)
 #
       print(i,"\t",k,"\t voltage=",voltage[i],"\t current=", current[i], "\t source_current=", vcurrent[i])
 
