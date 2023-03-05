@@ -12,7 +12,6 @@ import time
 import numpy as np
 import os
 import sys
-import matplotlib.pyplot as plt 
 
 def record_status (filename, variable):
    timestamp = time.strftime("D%Y%m%dT%H%M%S")
@@ -27,6 +26,7 @@ def record_data (filename, variable):
    datFile.close()
    
 def live_display (voltage, current,i):
+   import matplotlib.pyplot as plt 
    if (i==0):
       n=0
    else:
