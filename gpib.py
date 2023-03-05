@@ -28,7 +28,7 @@ class Control(object):
         if DEBUGG>0:
            visa.log_to_screen()
         self.rm = visa.ResourceManager('@py')
-        self.x = self.rm.open_resource(u'ASRL/dev/ttyUSB0::INSTR', timeout=2000)
+        self.x = self.rm.open_resource(u'ASRL/dev/ttyUSB1::INSTR', timeout=2000)
         print ('usb port connected')
 
     def close(self):
