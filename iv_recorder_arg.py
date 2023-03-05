@@ -50,6 +50,8 @@ args = parser.parse_args()
 print(args)
 
 ############################################### initialize file and directory
+display = False
+
 
 Vmin    = args.Vmin
 Vmax    = args.Vmax
